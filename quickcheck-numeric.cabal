@@ -1,0 +1,26 @@
+Name:           quickcheck-numeric
+Version:        0.1
+Synopsis:       Helpers for writing tests for numeric code
+Description:
+  Helpers for writing tests for numeric code
+
+Cabal-Version:  >= 1.6
+License:        BSD3
+License-File:   LICENSE
+Author:         Aleksey Khudyakov <alexey.skladnoy@gmail.com>
+Maintainer:     Aleksey Khudyakov <alexey.skladnoy@gmail.com>
+Homepage:       http://bitbucket.org/Shimuuar/quickcheck-numeric
+Category:       Data
+Build-Type:     Simple
+
+source-repository head
+  type:     hg
+  location: http://bitbucket.org/Shimuuar/quickcheck-numeric
+
+Library
+  Ghc-options:          -Wall
+  Build-Depends:
+    base    >=3 && <5,
+    ieee754 >= 0.7.3
+  Exposed-modules:      
+    Test.QuickCheck.Numeric
