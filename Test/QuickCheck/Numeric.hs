@@ -7,6 +7,8 @@ module Test.QuickCheck.Numeric (
   , Monotonicity(..)
   , monotonicFunction
   , monotonicFunctionIEEE
+    -- * Inverse function
+  , checkInverse
   ) where
 
 import Data.Complex
@@ -88,3 +90,25 @@ monotonicFunctionIEEE cmp f x1 x2
            MonotoneInc -> (<=)
            StrictDec   -> (>=)
            MonotoneDec -> (>=)
+
+
+----------------------------------------------------------------
+-- Function and its inverse
+----------------------------------------------------------------
+
+-- | Check that function is inverse. Breaks down near zero.
+checkInverse
+  :: (Double -> Double) -- ^ Function @f(x)@
+  -> (Double -> Double) -- ^ Inverse function @g@, @g(f(x)) = x@
+  -> (Double -> Double) -- ^ Derivative of function @f(x)@
+  -> Double             -- ^ Relative error for
+                        --   @f(x)@. Usually is machine epsilon.
+  -> Double             -- ^ Relative error for inverse function
+                        --   @g(x)@. Usually is machine epsilon.
+  -> Double -> Bool
+checkInverse f invF f' eps eps' x
+  = x ~= invF y
+  where
+    (~=) = eq (eps' + y / f' x * eps)
+    y    = f x
+
