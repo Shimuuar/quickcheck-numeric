@@ -9,6 +9,7 @@ module Test.QuickCheck.Numeric (
   , monotonicFunctionIEEE
     -- * Inverse function
   , checkInverse
+  , checkInverse2
   ) where
 
 import Data.Complex
@@ -111,4 +112,22 @@ checkInverse f invF f' eps eps' x
   where
     (~=) = eq (eps' + abs (y / f' x * eps))
     y    = f x
+
+
+-- | Check that function is inverse. Breaks down near zero.
+checkInverse2
+  :: (Double -> Double) -- ^ Function @f(x)@
+  -> (Double -> Double) -- ^ Inverse function @g@, @g(f(x)) = x@
+  -> (Double -> Double) -- ^ Derivative of function @g(x)@
+  -> Double             -- ^ Relative error for
+                        --   @f(x)@. Usually is machine epsilon.
+  -> Double             -- ^ Relative error for inverse function
+                        --   @g(x)@. Usually is machine epsilon.
+  -> Double -> Bool
+checkInverse2 f invF invF' eps eps' x
+  = x ~= invF y
+  where
+    (~=) = eq (eps' + abs (y * (invF' y * eps)))
+    y    = f x
+
 
