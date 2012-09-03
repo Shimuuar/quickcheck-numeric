@@ -109,6 +109,6 @@ checkInverse
 checkInverse f invF f' eps eps' x
   = x ~= invF y
   where
-    (~=) = eq (eps' + y / f' x * eps)
+    (~=) = eq (eps' + abs (y / f' x * eps))
     y    = f x
 
